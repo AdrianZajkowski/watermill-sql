@@ -20,8 +20,8 @@ type DelayedMySQLPublisherConfig struct {
 
 	Logger watermill.LoggerAdapter
 
-	// InitializeSchema option enables initializing schema on making subscription.
-	InitializeSchema bool
+	// DisableInitializeSchema option disables auto initializing schema
+	DisableInitializeSchema bool
 }
 
 func (c *DelayedMySQLPublisherConfig) setDefaults() {
@@ -39,7 +39,7 @@ func NewDelayedMySQLPublisher(db ContextExecutor, config DelayedMySQLPublisherCo
 		SchemaAdapter: delayedMySQLSchemaAdapter{
 			MySQLQueueSchema: MySQLQueueSchema{},
 		},
-		AutoInitializeSchema: config.InitializeSchema,
+		AutoInitializeSchema: !config.DisableInitializeSchema,
 	}
 
 	if config.OverridePublisherConfig != nil {
@@ -79,8 +79,8 @@ type DelayedMySQLSubscriberConfig struct {
 
 	Logger watermill.LoggerAdapter
 
-	// InitializeSchema option enables initializing schema on making subscription.
-	InitializeSchema bool
+	// DisableInitializeSchema option disables auto initializing schema
+	DisableInitializeSchema bool
 }
 
 func (c *DelayedMySQLSubscriberConfig) setDefaults() {
@@ -113,7 +113,7 @@ func NewDelayedMySQLSubscriber(db Beginner, config DelayedMySQLSubscriberConfig)
 		OffsetsAdapter: MySQLQueueOffsetsAdapter{
 			DeleteOnAck: config.DeleteOnAck,
 		},
-		InitializeSchema: config.InitializeSchema,
+		InitializeSchema: !config.DisableInitializeSchema,
 	}
 
 	if config.OverrideSubscriberConfig != nil {

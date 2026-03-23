@@ -18,8 +18,8 @@ type DelayedPostgreSQLPublisherConfig struct {
 
 	Logger watermill.LoggerAdapter
 
-	// InitializeSchema option enables initializing schema on making subscription.
-	InitializeSchema bool
+	// DisableInitializeSchema option disables auto initializing schema
+	DisableInitializeSchema bool
 }
 
 func (c *DelayedPostgreSQLPublisherConfig) setDefaults() {
@@ -35,7 +35,7 @@ func NewDelayedPostgreSQLPublisher(db ContextExecutor, config DelayedPostgreSQLP
 
 	publisherConfig := PublisherConfig{
 		SchemaAdapter:        PostgreSQLQueueSchema{},
-		AutoInitializeSchema: config.InitializeSchema,
+		AutoInitializeSchema: !config.DisableInitializeSchema,
 	}
 
 	if config.OverridePublisherConfig != nil {
@@ -75,8 +75,8 @@ type DelayedPostgreSQLSubscriberConfig struct {
 
 	Logger watermill.LoggerAdapter
 
-	// InitializeSchema option enables initializing schema on making subscription.
-	InitializeSchema bool
+	// DisableInitializeSchema option disables auto initializing schema
+	DisableInitializeSchema bool
 }
 
 func (c *DelayedPostgreSQLSubscriberConfig) setDefaults() {
@@ -109,7 +109,7 @@ func NewDelayedPostgreSQLSubscriber(db Beginner, config DelayedPostgreSQLSubscri
 		OffsetsAdapter: PostgreSQLQueueOffsetsAdapter{
 			DeleteOnAck: config.DeleteOnAck,
 		},
-		InitializeSchema: config.InitializeSchema,
+		InitializeSchema: !config.DisableInitializeSchema,
 	}
 
 	if config.OverrideSubscriberConfig != nil {

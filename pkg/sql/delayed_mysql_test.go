@@ -25,15 +25,13 @@ func TestDelayedMySQL(t *testing.T) {
 				return delay.For(time.Second), nil
 			},
 		},
-		Logger:           logger,
-		InitializeSchema: true,
+		Logger: logger,
 	})
 	require.NoError(t, err)
 
 	sub, err := sql.NewDelayedMySQLSubscriber(db, sql.DelayedMySQLSubscriberConfig{
-		DeleteOnAck:      true,
-		Logger:           logger,
-		InitializeSchema: true,
+		DeleteOnAck: true,
+		Logger:      logger,
 	})
 	require.NoError(t, err)
 
@@ -73,8 +71,7 @@ func TestDelayedMySQL_NoDelay(t *testing.T) {
 		DelayPublisherConfig: delay.PublisherConfig{
 			AllowNoDelay: true,
 		},
-		Logger:           logger,
-		InitializeSchema: true,
+		Logger: logger,
 	})
 	require.NoError(t, err)
 
@@ -82,9 +79,8 @@ func TestDelayedMySQL_NoDelay(t *testing.T) {
 		t.Parallel()
 
 		sub, err := sql.NewDelayedMySQLSubscriber(db, sql.DelayedMySQLSubscriberConfig{
-			DeleteOnAck:      true,
-			Logger:           logger,
-			InitializeSchema: true,
+			DeleteOnAck: true,
+			Logger:      logger,
 		})
 		require.NoError(t, err)
 
@@ -109,10 +105,9 @@ func TestDelayedMySQL_NoDelay(t *testing.T) {
 		t.Parallel()
 
 		sub, err := sql.NewDelayedMySQLSubscriber(db, sql.DelayedMySQLSubscriberConfig{
-			DeleteOnAck:      true,
-			AllowNoDelay:     true,
-			Logger:           logger,
-			InitializeSchema: true,
+			DeleteOnAck:  true,
+			AllowNoDelay: true,
+			Logger:       logger,
 		})
 		require.NoError(t, err)
 

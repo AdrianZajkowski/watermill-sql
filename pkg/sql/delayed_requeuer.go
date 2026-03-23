@@ -49,8 +49,8 @@ type DelayedRequeuerConfig struct {
 
 	Logger watermill.LoggerAdapter
 
-	// InitializeSchema option enables initializing schema on making subscription.
-	InitializeSchema bool
+	// DisableInitializeSchema option disables auto initializing schema
+	DisableInitializeSchema bool
 }
 
 func (c *DelayedRequeuerConfig) setDefaults() {
@@ -102,17 +102,17 @@ func NewPostgreSQLDelayedRequeuer(config DelayedRequeuerConfig) (*DelayedRequeue
 	}
 
 	publisher, err := NewDelayedPostgreSQLPublisher(config.DB, DelayedPostgreSQLPublisherConfig{
-		Logger:           config.Logger,
-		InitializeSchema: config.InitializeSchema,
+		Logger:                  config.Logger,
+		DisableInitializeSchema: config.DisableInitializeSchema,
 	})
 	if err != nil {
 		return nil, err
 	}
 
 	subscriber, err := NewDelayedPostgreSQLSubscriber(config.DB, DelayedPostgreSQLSubscriberConfig{
-		DeleteOnAck:      true,
-		Logger:           config.Logger,
-		InitializeSchema: config.InitializeSchema,
+		DeleteOnAck:             true,
+		Logger:                  config.Logger,
+		DisableInitializeSchema: config.DisableInitializeSchema,
 	})
 	if err != nil {
 		return nil, err
@@ -151,17 +151,17 @@ func NewMySQLDelayedRequeuer(config DelayedRequeuerConfig) (*DelayedRequeuer, er
 	}
 
 	publisher, err := NewDelayedMySQLPublisher(config.DB, DelayedMySQLPublisherConfig{
-		Logger:           config.Logger,
-		InitializeSchema: config.InitializeSchema,
+		Logger:                  config.Logger,
+		DisableInitializeSchema: config.DisableInitializeSchema,
 	})
 	if err != nil {
 		return nil, err
 	}
 
 	subscriber, err := NewDelayedMySQLSubscriber(config.DB, DelayedMySQLSubscriberConfig{
-		DeleteOnAck:      true,
-		Logger:           config.Logger,
-		InitializeSchema: config.InitializeSchema,
+		DeleteOnAck:             true,
+		Logger:                  config.Logger,
+		DisableInitializeSchema: config.DisableInitializeSchema,
 	})
 	if err != nil {
 		return nil, err
