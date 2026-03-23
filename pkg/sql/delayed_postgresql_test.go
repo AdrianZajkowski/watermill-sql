@@ -25,13 +25,15 @@ func TestDelayedPostgreSQL(t *testing.T) {
 				return delay.For(time.Second), nil
 			},
 		},
-		Logger: logger,
+		Logger:           logger,
+		InitializeSchema: true,
 	})
 	require.NoError(t, err)
 
 	sub, err := sql.NewDelayedPostgreSQLSubscriber(db, sql.DelayedPostgreSQLSubscriberConfig{
-		DeleteOnAck: true,
-		Logger:      logger,
+		DeleteOnAck:      true,
+		Logger:           logger,
+		InitializeSchema: true,
 	})
 	require.NoError(t, err)
 
@@ -71,7 +73,8 @@ func TestDelayedPostgreSQL_NoDelay(t *testing.T) {
 		DelayPublisherConfig: delay.PublisherConfig{
 			AllowNoDelay: true,
 		},
-		Logger: logger,
+		Logger:           logger,
+		InitializeSchema: true,
 	})
 	require.NoError(t, err)
 
@@ -79,8 +82,9 @@ func TestDelayedPostgreSQL_NoDelay(t *testing.T) {
 		t.Parallel()
 
 		sub, err := sql.NewDelayedPostgreSQLSubscriber(db, sql.DelayedPostgreSQLSubscriberConfig{
-			DeleteOnAck: true,
-			Logger:      logger,
+			DeleteOnAck:      true,
+			Logger:           logger,
+			InitializeSchema: true,
 		})
 		require.NoError(t, err)
 
@@ -105,9 +109,10 @@ func TestDelayedPostgreSQL_NoDelay(t *testing.T) {
 		t.Parallel()
 
 		sub, err := sql.NewDelayedPostgreSQLSubscriber(db, sql.DelayedPostgreSQLSubscriberConfig{
-			DeleteOnAck:  true,
-			AllowNoDelay: true,
-			Logger:       logger,
+			DeleteOnAck:      true,
+			AllowNoDelay:     true,
+			Logger:           logger,
+			InitializeSchema: true,
 		})
 		require.NoError(t, err)
 

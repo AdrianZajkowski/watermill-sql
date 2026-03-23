@@ -28,10 +28,11 @@ func TestPostgreSQLDelayedRequeuer(t *testing.T) {
 	require.NoError(t, err)
 
 	delayedRequeuer, err := sql.NewPostgreSQLDelayedRequeuer(sql.DelayedRequeuerConfig{
-		DB:           db,
-		RequeueTopic: watermill.NewUUID(),
-		Publisher:    publisher,
-		Logger:       logger,
+		DB:               db,
+		RequeueTopic:     watermill.NewUUID(),
+		Publisher:        publisher,
+		Logger:           logger,
+		InitializeSchema: true,
 	})
 	require.NoError(t, err)
 
@@ -96,10 +97,11 @@ func TestMySQLDelayedRequeuer(t *testing.T) {
 	require.NoError(t, err)
 
 	delayedRequeuer, err := sql.NewMySQLDelayedRequeuer(sql.DelayedRequeuerConfig{
-		DB:           db,
-		RequeueTopic: watermill.NewUUID(),
-		Publisher:    publisher,
-		Logger:       logger,
+		DB:               db,
+		RequeueTopic:     watermill.NewUUID(),
+		Publisher:        publisher,
+		Logger:           logger,
+		InitializeSchema: true,
 	})
 	require.NoError(t, err)
 
